@@ -1,24 +1,28 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useEffect } from 'react';
+import qs from 'qs'
+import { getHash } from './utilities/utils'
+import Home from './components/Home'
+import Nav from './components/Nav'
+import Users from './components/Users'
+
+const API = `https://acme-users-api-rev.herokuapp.com/`
 
 function App() {
+
+  const [ params, setParams ] = useState(qs.parse(getHash()));
+
+  useEffect(()=> {
+    window.addEventListener('hashchange', ()=> {
+      setParams(qs.parse(getHash()));
+    });
+    setParams(qs.parse(getHash()));
+  }, []);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Nav />
+      {params.view === undefined ? <Home />: null}
+      {params.view === 'users' ? <Users />: null}
     </div>
   );
 }
