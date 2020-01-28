@@ -12,6 +12,11 @@ code {
     monospace;
 }
 
+.pageCount {
+  display: flex;
+  flex-direction: row;
+}
+
 .nav-box {
   display: flex;
   justify-content: space-evenly;
