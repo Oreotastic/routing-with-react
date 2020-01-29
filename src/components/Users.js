@@ -15,17 +15,20 @@ const User = ({ user }) => {
 
 const Users = ({ params }) => {
   const [users, setUsers] = useState([]);
-  const [count, setCount] = useState();
+  const [count, setCount] = useState(0);
   //const [api, setAPI] = useState();
 
+  const fetchUsers = async (idx = 0) => {
+    const response = await axios.get(`${API}api/users/${idx}`);
+    return response.data;
+  };
+
   useEffect(() => {
-    axios
-      .get(`${API}api/users/${params.idx ? params.idx : ''}`)
-      .then(response => {
-        setCount(response.data.count);
-        return setUsers(response.data.users);
-      });
-  }, [params.idx]);
+    fetchUsers(params.idx).then(userData => {
+      setUsers(userData.users);
+      setCount(userData.count);
+    });
+  }, [params]);
 
   const user = users.find(u => u.id === params.id);
 
