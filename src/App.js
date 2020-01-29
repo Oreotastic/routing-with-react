@@ -6,18 +6,19 @@ import Home from './components/Home';
 import Nav from './components/Nav';
 import Users from './components/Users';
 
-const API = `https://acme-users-api-rev.herokuapp.com/`;
+//const API = `https://acme-users-api-rev.herokuapp.com/`;
 
 function App() {
   const [params, setParams] = useState(qs.parse(getHash()));
-  //console.log(getHash());
+
   useEffect(() => {
     window.addEventListener('hashchange', () => {
       setParams(qs.parse(getHash()));
+      //console.log(params, 'hash');
     });
     setParams(qs.parse(getHash()));
+    //console.log(params, 'user');
   }, []);
-  //console.log(params);
 
   return (
     <div className="container">

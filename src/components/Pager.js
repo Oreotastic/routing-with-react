@@ -1,11 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
 import qs from 'qs';
 const Pager = ({ count, state, params }) => {
-  // page count
-  // loop thru page count
-  // check if i modulas count = 0 50 can fit
-  //
+  const [totalCount, setTotalCount] = useState();
   const pageCount = () => {
     const pageNum = count / 50;
 
@@ -16,19 +13,18 @@ const Pager = ({ count, state, params }) => {
 
     return arr;
   };
-  //pageCount();
 
-  // const pageLink = ev => {
-  //   console.dir(ev.target.innerText);
-  // };
-  console.log(params);
   return (
     <nav aria-label="Page navigation example">
+      {totalCount}
       <ul className="pagination pageCount">
         <li className="page-item">
           <a
             className="page-link"
-            href={`#${qs.stringify({ view: 'users', idx: params.idx - 1 })}`}
+            href={`#${qs.stringify({
+              view: 'users',
+              idx: Number(params.idx) - 1,
+            })}`}
           >
             Previous
           </a>
@@ -36,14 +32,11 @@ const Pager = ({ count, state, params }) => {
 
         {pageCount().map(pageNum => {
           return (
-            <li
-              key={pageNum}
-              className="page-item"
-              // onClick={pageLink}
-            >
+            <li key={pageNum} className="page-item">
               <a
                 className="page-link"
                 href={`#${qs.stringify({ view: 'users', idx: pageNum })}`}
+                onClick={() => setTotalCount((pageNum + 1) * 50)}
               >
                 {pageNum + 1}
               </a>
@@ -51,7 +44,13 @@ const Pager = ({ count, state, params }) => {
           );
         })}
         <li className="page-item">
-          <a className="page-link" href="#">
+          <a
+            className="page-link"
+            href={`#${qs.stringify({
+              view: 'users',
+              idx: Number(params.idx) + 1,
+            })}`}
+          >
             Next
           </a>
         </li>
